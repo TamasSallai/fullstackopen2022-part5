@@ -8,7 +8,7 @@ const BlogForm = ({ handleBlogCreation }) => {
   return (
     <div>
       <h2>create new</h2>
-      <form onSubmit={handleBlogCreation(title, author, url)}>
+      <form onSubmit={handleBlogCreation({ title, author, url })}>
         <div>
           <label>title: </label>
           <input type="text" onChange={(e) => setTitle(e.target.value)} />
@@ -21,7 +21,7 @@ const BlogForm = ({ handleBlogCreation }) => {
           <label>url: </label>
           <input type="text" onChange={(e) => setUrl(e.target.value)} />
         </div>
-        <button type="submit">Create</button>
+        <button type="submit">create</button>
       </form>
     </div>
   )

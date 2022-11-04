@@ -49,20 +49,31 @@ const App = () => {
     setUser(null)
   }
 
-  const handleBlogCreation = (title, author, url) => async (e) => {
+  const handleBlogCreation = (newBlog) => async (e) => {
     e.preventDefault()
     try {
-      await blogService.create({ title, author, url })
-      setBlogs(blogs.concat({ title, author, url }))
+      const responseBlogData = await blogService.create(newBlog)
+      setBlogs(blogs.concat(responseBlogData))
       setNotification({
         type: 'success',
-        message: `a new blog "${title}" by ${author} added`,
+        message: `a new blog "${responseBlogData.title}" by ${responseBlogData.author} added`,
       })
     } catch (error) {
       setNotification({
         type: 'error',
         message: error.message,
       })
+    }
+  }
+
+  const handleBlogRemove = async (blog) => {
+    if (window.confirm(`Remove blog: ${blog.title} by ${blog.author} `)) {
+      try {
+        await blogService.remove(blog.id)
+        setBlogs(blogs.filter((b) => b.id !== blog.id))
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -79,6 +90,7 @@ const App = () => {
           user={user}
           handleLogout={handleLogout}
           handleBlogCreation={handleBlogCreation}
+          handleBlogRemove={handleBlogRemove}
         />
       )}
     </div>
